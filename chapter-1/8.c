@@ -1,18 +1,18 @@
 #include <stdio.h>
-#include <ctype.h>
 
 int main() {
-  // count blanks, tabs and newlines
   char c;
-  size_t count = 0;
-  while ((c = getchar())) {
-    if (c == EOF) {
-      goto done;
+  size_t blanks = 0, tabs = 0, newlines = 0;
+  while ((c = getchar()) != EOF) {
+    if (c == '\n') {
+      newlines++;
     }
-    if (isspace(c)) {
-      count++;
+    if (c == '\t') {
+      tabs++;
+    }
+    if (c == ' ') {
+      blanks++;
     }
   }
-  done:
-    printf("the count of blanks, tabs and newlines is: %zu\n", count);
+  printf("the count of blanks is: [%zu], tabs is: [%zu] and newlines is: [%zu]\n", blanks, tabs, newlines);
 }

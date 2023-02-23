@@ -6,8 +6,8 @@ int main() {
   // print input one word at a time if it is over 80 chars long
   char buf[1024] = {};
   size_t index = 0;
-  while (1) {
-    char c = getchar();
+  char c;
+  while ((c = getchar()) != EOF) {
     if (c == '\n') {
       buf[index] = '\0';
       if (index > 79) {
