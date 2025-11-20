@@ -11,6 +11,9 @@ char *squeeze(char *s1, char *s2, size_t s1_len, size_t s2_len);
 int any(char *s1, char *s2, size_t s1_len, size_t s2_len);
 unsigned long long bitcount(unsigned long long value);
 void lower(char *str, size_t len);
+int setbits(int x, int p, int n, int y);
+int invert(int x, int p, int n);
+unsigned int rightrot(unsigned int x, unsigned int n);
 
 int chapter_2_1(void);
 int chapter_2_2(void);

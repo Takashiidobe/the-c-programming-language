@@ -6,9 +6,7 @@ void lower(char *str, size_t len) {
   int diff = 'a' - 'A';
   for (int i = 0; i < len; i++) {
     char c = str[i];
-    if (c >= 'A' && c <= 'Z') {
-      str[i] = c + diff;
-    }
+    str[i] = c >= 'A' && c <= 'Z' ? c + diff : c;
   }
 }
 

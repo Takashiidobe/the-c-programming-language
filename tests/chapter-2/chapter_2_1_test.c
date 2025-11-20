@@ -4,7 +4,7 @@
 #include "chapter-2.h"
 
 int main(void) {
-  char expected[512];
+  char expected[1024];
   snprintf(expected, sizeof(expected),
            "\nBits of type char: %d\n\n"
            "Maximum numeric value of type char: %d\n"
