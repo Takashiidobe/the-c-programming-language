@@ -14,19 +14,26 @@ void lower(char *str, size_t len) {
 
 int chapter_2_10(void) {
   char buf[1024];
-  char c;
   size_t i = 0;
+  int c;
 
   while ((c = getchar()) != EOF) {
     if (c != '\n') {
-      buf[i] = c;
-      i++;
+      if (i < sizeof(buf) - 1) {
+        buf[i++] = (char)c;
+      }
     } else {
+      buf[i] = '\0';
       lower(buf, i);
       puts(buf);
       memset(buf, 0, i);
       i = 0;
     }
+  }
+  if (i > 0) {
+    buf[i] = '\0';
+    lower(buf, i);
+    puts(buf);
   }
   return 0;
 }

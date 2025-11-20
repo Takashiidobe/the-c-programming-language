@@ -1,5 +1,6 @@
 rwildcard=$(foreach d, $(wildcard $(1:=/*)), $(call rwildcard, $d, $2) $(filter $(subst *, %, $2), $d))
 
+MAKEFLAGS += -j $(shell nproc)
 OUT_DIR = out
 SRC_DIR = src
 TEST_DIR = tests
@@ -13,8 +14,8 @@ INC_HEADERS = $(call rwildcard, $(INC_DIR), *.h)
 RAW_DEBUG_FILES = $(call rwildcard, ., *.dSYM)
 
 SRC_OBJECTS = $(patsubst $(SRC_DIR)/%.c,$(OUT_DIR)/obj/%.o,$(SRC_SOURCES))
-TEST_BIN_NAMES = $(notdir $(basename $(TEST_SOURCES)))
-TEST_BINS = $(addprefix $(OUT_DIR)/tests/,$(TEST_BIN_NAMES))
+TEST_REL_PATHS = $(patsubst $(TEST_DIR)/%.c,%,$(TEST_SOURCES))
+TEST_BINS = $(addprefix $(OUT_DIR)/tests/,$(TEST_REL_PATHS))
 DEBUG_FILES = $(patsubst ./%,%,$(RAW_DEBUG_FILES))
 FMT_FILES = $(sort $(SRC_SOURCES) $(SRC_HEADERS) $(INC_HEADERS) $(TEST_SOURCES) $(TEST_HEADERS))
 
@@ -41,7 +42,7 @@ test: all
 	@set -e; for bin in $(TEST_BINS); do echo "Running $$bin"; $$bin; done
 
 define BUILD_TEST
-$(OUT_DIR)/tests/$(notdir $(basename $(1))): $(1) $(SRC_OBJECTS)
+$(OUT_DIR)/tests/$(patsubst $(TEST_DIR)/%.c,%,$(1)): $(1) $(SRC_OBJECTS)
 	@mkdir -p $$(dir $$@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $$< $(SRC_OBJECTS) -o $$@ $(LDLIBS)
 endef

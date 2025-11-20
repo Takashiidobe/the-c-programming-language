@@ -22,18 +22,24 @@ int any(char *s1, char *s2, size_t s1_len, size_t s2_len) {
 int chapter_2_5(void) {
   char buf[1024];
   char *vowels = "aeiou";
-  char c;
   size_t i = 0;
+  int c;
 
   while ((c = getchar()) != EOF) {
     if (c != '\n') {
-      buf[i] = c;
-      i++;
+      if (i < sizeof(buf) - 1) {
+        buf[i++] = (char)c;
+      }
     } else {
+      buf[i] = '\0';
       printf("%d\n", any(buf, vowels, i, strlen(vowels)));
-      memset(buf, 0, 1024);
+      memset(buf, 0, sizeof(buf));
       i = 0;
     }
+  }
+  if (i > 0) {
+    buf[i] = '\0';
+    printf("%d\n", any(buf, vowels, i, strlen(vowels)));
   }
   return 0;
 }

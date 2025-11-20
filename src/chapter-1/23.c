@@ -6,8 +6,8 @@ typedef enum state {
 } state;
 
 int chapter_1_23(void) {
-  char c;
-  char n;
+  int c;
+  int n;
   state s = PRINT;
 
   while ((c = getchar()) != EOF) {
@@ -17,10 +17,13 @@ int chapter_1_23(void) {
         if (n == '*') {
           s = IN_COMMENT;
         } else {
-          ungetc(n, stdin);
+          if (n != EOF) {
+            ungetc(n, stdin);
+          }
+          putchar('/');
         }
       } else {
-        putchar(c);
+        putchar((char)c);
       }
     } else {
       if (c == '*') {
@@ -28,7 +31,9 @@ int chapter_1_23(void) {
         if (n == '/') {
           s = PRINT;
         } else {
-          ungetc(n, stdin);
+          if (n != EOF) {
+            ungetc(n, stdin);
+          }
         }
       }
     }

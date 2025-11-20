@@ -15,20 +15,28 @@ unsigned long long bitcount(unsigned long long value) {
 
 int chapter_2_9(void) {
   char buf[1024];
-  char c;
   size_t i = 0;
+  int c;
 
   while ((c = getchar()) != EOF) {
     if (c != '\n') {
-      buf[i] = c;
-      i++;
+      if (i < sizeof(buf) - 1) {
+        buf[i++] = (char)c;
+      }
     } else {
-      int num = atoi(buf);
+      buf[i] = '\0';
+      unsigned long long num = strtoull(buf, NULL, 10);
       size_t popcount = bitcount(num);
       printf("The bitcount of %s is: %zu\n", buf, popcount);
-      memset(buf, 0, 1024);
+      memset(buf, 0, sizeof(buf));
       i = 0;
     }
+  }
+  if (i > 0) {
+    buf[i] = '\0';
+    unsigned long long num = strtoull(buf, NULL, 10);
+    size_t popcount = bitcount(num);
+    printf("The bitcount of %s is: %zu\n", buf, popcount);
   }
   return 0;
 }

@@ -5,9 +5,11 @@
 
 /* count lines, words, and characters in input */
 int chapter_1_11(void) {
-  char c;
+  int c;
   int state = OUT;
-  int nl, nw, nc = 0;
+  int nl = 0;
+  int nw = 0;
+  int nc = 0;
   while ((c = getchar()) != EOF) {
     ++nc;
     if (c == '\n')

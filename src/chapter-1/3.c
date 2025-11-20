@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 int chapter_1_3(void) {
   int fahr, celsius;
   int lower, upper, step;

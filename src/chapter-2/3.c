@@ -35,19 +35,23 @@ unsigned long long htoi(char *hexstr) {
 
 int chapter_2_3(void) {
   const size_t buf_size = 1024;
-  char c;
   char curr_str[buf_size];
   size_t index = 0;
+  int c;
 
   while ((c = getchar()) != EOF) {
     if (c == '\n') {
       curr_str[index] = '\0';
       printf("%s as hexadecimal is: %llu\n", curr_str, htoi(curr_str));
-      memset(curr_str, 0, 1024);
+      memset(curr_str, 0, buf_size);
       index = 0;
-    } else {
-      curr_str[index++] = c;
+    } else if (index < buf_size - 1) {
+      curr_str[index++] = (char)c;
     }
+  }
+  if (index > 0) {
+    curr_str[index] = '\0';
+    printf("%s as hexadecimal is: %llu\n", curr_str, htoi(curr_str));
   }
   return 0;
 }

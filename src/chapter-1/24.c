@@ -12,8 +12,8 @@ void error(char c) {
 }
 
 int chapter_1_24(void) {
-  char c;
-  char n;
+  int c;
+  int n;
   state s = PRINT;
 
   char stack[1024];
@@ -22,21 +22,24 @@ int chapter_1_24(void) {
   while ((c = getchar()) != EOF) {
     if (s == PRINT) {
       if (c == '(' || c == '[' || c == '{') {
-        stack[curr_index++] = c;
+        if (curr_index >= (int)(sizeof(stack))) {
+          error((char)c);
+        }
+        stack[curr_index++] = (char)c;
       } else if (c == ')') {
-        if (stack[curr_index - 1] != '(') {
+        if (curr_index == 0 || stack[curr_index - 1] != '(') {
           error('(');
         } else {
           curr_index--;
         }
       } else if (c == ']') {
-        if (stack[curr_index - 1] != '[') {
+        if (curr_index == 0 || stack[curr_index - 1] != '[') {
           error(']');
         } else {
           curr_index--;
         }
       } else if (c == '}') {
-        if (stack[curr_index - 1] != '{') {
+        if (curr_index == 0 || stack[curr_index - 1] != '{') {
           error('}');
         } else {
           curr_index--;
@@ -47,7 +50,9 @@ int chapter_1_24(void) {
         if (n == '*') {
           s = IN_COMMENT;
         } else {
-          ungetc(n, stdin);
+          if (n != EOF) {
+            ungetc(n, stdin);
+          }
         }
       }
     } else {
@@ -55,9 +60,14 @@ int chapter_1_24(void) {
         n = getchar();
         if (n == '/') {
           s = PRINT;
+        } else if (n != EOF) {
+          ungetc(n, stdin);
         }
       }
     }
   }
-  return curr_index == 0;
+  if (curr_index != 0) {
+    error(stack[curr_index - 1]);
+  }
+  return 0;
 }

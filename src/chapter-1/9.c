@@ -6,13 +6,13 @@ int chapter_1_9(void) {
   char buf[1024] = {};
   size_t index = 0;
   int prev_space = 0;
-  while (1) {
-    char c = getchar();
+  int c;
+  while ((c = getchar()) != EOF) {
     if (c == ' ') {
       if (prev_space) {
         continue;
       } else {
-        buf[index++] = c;
+        buf[index++] = (char)c;
         prev_space = 1;
       }
     } else if (c == '\n') {
@@ -22,9 +22,13 @@ int chapter_1_9(void) {
       memset(buf, 0, sizeof(buf));
       prev_space = 0;
     } else {
-      buf[index++] = c;
+      buf[index++] = (char)c;
       prev_space = 0;
     }
+  }
+  if (index > 0) {
+    buf[index] = '\0';
+    puts(buf);
   }
   return 0;
 }
