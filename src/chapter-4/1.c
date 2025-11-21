@@ -18,7 +18,7 @@ int strrindex(char *s, char *t) {
     return -1;
   }
 
-  for (int i = (int)(s_len - t_len); i >= 0; i--) {
+  for (int i = (s_len - t_len); i >= 0; i--) {
     size_t j = 0;
     while (j < t_len && s[i + j] == t[j]) {
       j++;
@@ -29,5 +29,3 @@ int strrindex(char *s, char *t) {
   }
   return -1;
 }
-
-int chapter_4_1(void) { return 0; }

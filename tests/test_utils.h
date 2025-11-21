@@ -2,6 +2,7 @@
 #define TEST_UTILS_H
 
 #include <assert.h>
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,6 +53,23 @@ static void print_str_diff_visual(const char *expected, const char *actual) {
               "  expected: %lld\n"                                             \
               "  actual  : %lld\n",                                            \
               __FILE__, __LINE__, exp__, act__);                               \
+      abort();                                                                 \
+    }                                                                          \
+  } while (0)
+
+#define ASSERT_DOUBLE_NEAR(expected, actual, tolerance)                         \
+  do {                                                                         \
+    double exp__ = (double)(expected);                                         \
+    double act__ = (double)(actual);                                           \
+    double tol__ = (double)(tolerance);                                        \
+    double diff__ = fabs(exp__ - act__);                                       \
+    if (diff__ > tol__) {                                                      \
+      fprintf(stderr,                                                          \
+              "ASSERT_DOUBLE_NEAR failed at %s:%d\n"                           \
+              "  expected: %.15g\n"                                             \
+              "  actual  : %.15g\n"                                            \
+              "  diff    : %.15g > %.15g\n",                                    \
+              __FILE__, __LINE__, exp__, act__, diff__, tol__);                \
       abort();                                                                 \
     }                                                                          \
   } while (0)
