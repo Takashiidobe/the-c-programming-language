@@ -5,6 +5,7 @@
 
 int is_upper(char c);
 int is_string_upper(char *str, size_t len);
+int chapter_7_1(int argc, char *argv[]);
 int chapter_7_9(void);
 
 #endif

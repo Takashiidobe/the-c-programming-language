@@ -57,7 +57,7 @@ static void print_str_diff_visual(const char *expected, const char *actual) {
     }                                                                          \
   } while (0)
 
-#define ASSERT_DOUBLE_NEAR(expected, actual, tolerance)                         \
+#define ASSERT_DOUBLE_NEAR(expected, actual, tolerance)                        \
   do {                                                                         \
     double exp__ = (double)(expected);                                         \
     double act__ = (double)(actual);                                           \
@@ -66,9 +66,9 @@ static void print_str_diff_visual(const char *expected, const char *actual) {
     if (diff__ > tol__) {                                                      \
       fprintf(stderr,                                                          \
               "ASSERT_DOUBLE_NEAR failed at %s:%d\n"                           \
-              "  expected: %.15g\n"                                             \
+              "  expected: %.15g\n"                                            \
               "  actual  : %.15g\n"                                            \
-              "  diff    : %.15g > %.15g\n",                                    \
+              "  diff    : %.15g > %.15g\n",                                   \
               __FILE__, __LINE__, exp__, act__, diff__, tol__);                \
       abort();                                                                 \
     }                                                                          \
@@ -149,6 +149,8 @@ void assert_stdin_stdout(int (*func)(void), const char *input,
   // 4. Redirect stdin/stdout to our temporary files
   assert(dup2(fileno(in), STDIN_FILENO) != -1);
   assert(dup2(fileno(out), STDOUT_FILENO) != -1);
+  clearerr(stdin);
+  clearerr(stdout);
 
   // 5. Call the function under test
   int rc = func();
